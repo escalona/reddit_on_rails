@@ -1,0 +1,24 @@
+class LinksController < ApplicationController
+  def show
+    @link = Link.find(params[:id])
+  end
+
+  def new
+    @link = Link.new
+  end
+
+  def create
+    @link = Link.new(params[:link])
+
+    respond_to do |format|
+      if @link.save
+        format.html { redirect_to link_path(@link) }
+        format.json { render :json => @wrestler}
+      else
+        formatl.html { render :action => 'new' }
+        format.json { render :json => @link.errors, :status =>
+          :unprocessable_entity }
+      end
+    end
+  end
+end
