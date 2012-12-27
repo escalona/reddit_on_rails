@@ -1,3 +1,6 @@
-<h1>This is the INDEX view</h1>
-
-<%= link_to "Add a link", new_link_path %>
+<ul>
+  <% @links.each do |link| %>
+    <li><%= link.title %></li>
+    <li><a href ="<%= link.url %>"><%= link.url %></a></li>
+  <% end %>
+</ul>

@@ -13,7 +13,7 @@ class LinksController < ApplicationController
     respond_to do |format|
       if @link.save
         format.html { redirect_to link_path(@link) }
-        format.json { render :json => @wrestler}
+        format.json { render :json => @link}
       else
         formatl.html { render :action => 'new' }
         format.json { render :json => @link.errors, :status =>
