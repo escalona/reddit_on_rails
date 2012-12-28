@@ -1,9 +1,15 @@
 <ul>
   <% @links.each do |link| %>
-    <li><%= link.title %> <%= link_to "+", votes_path(:vote => {:link_id => link.id, :up => true}), :method => :post %>
-        <%= link_to "-", votes_path(:vote => {:link_id => link.id, :up => false,}), :method => :post %></li>
+    <li><%= link.title %>
+
+      <% if current_user && current_user.votes.where(:link_id => link.id, :up => true).present? %>
+        <%= link_to "-", votes_path(:vote => {:link_id => link.id, :up => false,}), :method => :post %>
+      <% else %>
+        <%= link_to "+", votes_path(:vote => {:link_id => link.id, :up => true}), :method => :post %>
+      <% end %>
+         </li>
     <li><a href ="<%= link.url %>"><%= link.url %> </a></li>
-    Votes: <%= link.votes.where(:up => true).count - link.votes.where(:up => false).count %>
+    Votes: <%= link.votes.where(:up => true).count - link.votes.where(:up => false).count %> <br />
     <%= link_to "comments", link %>
   <% end %>
 </ul>
