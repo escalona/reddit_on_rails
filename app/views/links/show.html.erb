@@ -2,3 +2,12 @@
 
 <h2>Link title: <%= @link.title %></h2>
 <h2>Link url: <%= @link.url %></h2>
+
+<%= render 'comment_form' %>
+
+<h2>Comments:</h2>
+<div>
+  <% @link.comments.each do |comment| %>
+    <p><%= comment.message %></p>
+  <% end %>
+</div>
