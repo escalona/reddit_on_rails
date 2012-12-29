@@ -14,4 +14,8 @@
   <% end %>
 </ul>
 
+<%= content_for :sidebar do %>
+  <%= link_to "Add a link", new_link_path %>
+<% end %>
+
 <%= will_paginate @links %>

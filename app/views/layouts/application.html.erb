@@ -5,22 +5,74 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+  <%= render "layouts/shim" %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!--
+      IMPORTANT:
+      This is Heroku specific styling. Remove to customize.
+    -->
+    <link href="http://heroku.github.com/template-app-bootstrap/heroku.css" rel="stylesheet">
+    <!-- /// -->
+
+    <!--
+      IMPORTANT:
+      To do the replacement  example for the real name application
+    -->
+    <script src="http://heroku.github.com/template-app-bootstrap/heroku.js"></script>
+    <!-- /// -->
 </head>
-<body>
 
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a href="/" class="brand">Reddit on Rails</a>
+          <nav>
+            <ul class='nav pull-right'>
+              <%# user is logged in, show log out link %>
+              <% if current_user.present? %>
+                <li><%= link_to 'Sign Out', destroy_user_session_path, :method => :delete %></li>
+              <%# user is not logged in, show signup and login links %>
+              <% else %>
+                <li><%= link_to 'Sign In', new_user_session_path %></li>
+                <li><%= link_to 'Register Now!', new_user_registration_path %></li>
+              <% end %>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
 
-<%# User is logged in, show log out link  %>
-<% if current_user.present? %>
-  <%= link_to 'Sign Out', destroy_user_session_path, :method => :delete %>
-<%# user is not logged in, show signup and login links %>
-<% else %>
- <%= link_to 'Sign In', new_user_session_path %>
- <%= link_to 'Register Now!', new_user_registration_path %>
-<% end %>
-
-<%= yield %>
-
-</body>
+    <div class="container" id="getting-started">
+      <div class="row">
+        <div class="span5 offset7">
+          <%= form_tag(search_path, :method => "get", :style => "margin: 15px 0 0 0") do%>
+            <%= text_field_tag(:q, nil, :placeholder => "search") %>
+            <%= submit_tag("Search") %>
+          <% end %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span2">
+          <div class="page-header"></div>
+          <h2>Sidebar</h2>
+          <%= yield :sidebar %>
+        </div>
+        <div class="span7 offset1">
+        <div class="page-header"></div>
+          <% [:notice, :error, :alert].each do |level| %>
+            <% unless flash[level].blank? %>
+              <div data-alert="alert" class="alert alert-<%= level %> fade in">
+                <a class="close" data-dismiss="alert" href="#">&times;</a>
+                <%= content_tag :p, flash[level] %>
+              </div>
+            <% end %>
+          <% end %>
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+    <%= javascript_include_tag "application" %>
+  </body>
 </html>
