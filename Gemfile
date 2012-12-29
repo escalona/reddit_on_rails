@@ -22,6 +22,11 @@ group :assets do
   gem 'twitter-bootstrap-rails'
 end
 
+group :test do
+  gem 'database_cleaner'
+  gem 'capybara', '~> 1.1.2'
+end
+
 gem 'jquery-rails'
 
 gem 'devise'
